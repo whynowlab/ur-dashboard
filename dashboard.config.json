@@ -1,0 +1,7 @@
+{
+  "panels": ["api-usage", "team-status", "commit-log"],
+  "refresh_interval": 5000,
+  "data_path": "~/.claude/orchestrator/state",
+  "teams_path": "~/.claude/orchestrator/agents/teams.json",
+  "port": 3000
+}
