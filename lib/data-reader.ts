@@ -24,7 +24,11 @@ export function readJsonlFile<T>(filePath: string): T[] {
 export function readJsonFile<T>(filePath: string): T | null {
   const resolved = expandHome(filePath);
   if (!existsSync(resolved)) return null;
-  return JSON.parse(readFileSync(resolved, "utf-8")) as T;
+  try {
+    return JSON.parse(readFileSync(resolved, "utf-8")) as T;
+  } catch {
+    return null;
+  }
 }
 
 export function getActiveAgentPids(stateDir: string): string[] {
