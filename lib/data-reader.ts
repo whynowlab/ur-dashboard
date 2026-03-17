@@ -89,10 +89,10 @@ export function readCommits(
     )
     .map((r) => {
       const msgMatch = r.cmd.match(
-        /commit -m ["']?(?:\$\(cat <<'?EOF'?\n)?(.+?)(?:\nEOF\n\))?["']?$/s
+        new RegExp('commit -m ["\']?(?:\\$\\(cat <<\'?EOF\'?\\n)?(.+?)(?:\\nEOF\\n\\))?["\']?$', 's')
       );
       const projectMatch = r.cmd.match(
-        /cd (?:~\/)?(?:Projects\/)?([^\s/&]+)/
+        new RegExp('cd (?:~/)?(?:Projects/)?([^\\s/&]+)')
       );
       return {
         ts: r.ts,

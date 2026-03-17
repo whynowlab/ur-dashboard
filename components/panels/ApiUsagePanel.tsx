@@ -63,7 +63,7 @@ export function ApiUsagePanel({ costs, total }: Props) {
             />
             <YAxis type="category" dataKey="name" fontSize={11} width={55} />
             <Tooltip
-              formatter={(value: number) => [`$${value.toFixed(2)}`, "Cost"]}
+              formatter={(value) => [`$${Number(value).toFixed(2)}`, "Cost"]}
               contentStyle={{
                 background: "rgba(255,255,255,0.8)",
                 backdropFilter: "blur(8px)",
