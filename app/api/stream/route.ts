@@ -1,4 +1,4 @@
-import { readJsonlFile, readTeamStatuses, readCommits } from "@/lib/data-reader";
+import { readJsonlFile, readTeamStatuses, readCommits, readSkillUsage } from "@/lib/data-reader";
 import { calculateUsageCosts } from "@/lib/pricing";
 import type { UsageRecord, TripoRecord, DashboardData } from "@/lib/types";
 import config from "@/dashboard.config.json";
@@ -15,12 +15,14 @@ function collectData(): DashboardData {
 
   const teams = readTeamStatuses(config.teams_path, basePath);
   const commits = readCommits(`${basePath}/timeline.jsonl`);
+  const skills = readSkillUsage(basePath);
 
   return {
     usage: costs,
     totalCost: total,
     teams,
     commits,
+    skills,
     updatedAt: new Date().toISOString(),
   };
 }

@@ -7,6 +7,7 @@ import type {
   TeamDefinition,
   PipelineEntry,
   TeamStatus,
+  SkillUsageEntry,
 } from "./types";
 
 function expandHome(p: string): string {
@@ -75,6 +76,32 @@ export function readTeamStatuses(
       lastUpdate: pipeline?.ts,
     };
   });
+}
+
+export function readSkillUsage(statePath: string): SkillUsageEntry[] {
+  const records = readJsonlFile<{
+    ts: string;
+    skill: string;
+    args: string;
+    invoked_by: string;
+  }>(`${statePath}/skill-usage.jsonl`);
+
+  const map = new Map<string, { count: number; lastUsed: string }>();
+  for (const r of records) {
+    const existing = map.get(r.skill);
+    if (!existing || r.ts > existing.lastUsed) {
+      map.set(r.skill, {
+        count: (existing?.count || 0) + 1,
+        lastUsed: r.ts,
+      });
+    } else {
+      existing.count += 1;
+    }
+  }
+
+  return Array.from(map.entries())
+    .map(([skill, data]) => ({ skill, ...data }))
+    .sort((a, b) => b.count - a.count);
 }
 
 export function readCommits(

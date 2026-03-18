@@ -65,11 +65,18 @@ export interface CommitEntry {
   project: string;
 }
 
+export interface SkillUsageEntry {
+  skill: string;
+  count: number;
+  lastUsed: string;
+}
+
 export interface DashboardData {
   usage: ModelCost[];
   totalCost: number;
   teams: TeamStatus[];
   commits: CommitEntry[];
+  skills: SkillUsageEntry[];
   updatedAt: string;
 }
 

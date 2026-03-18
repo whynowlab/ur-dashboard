@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ApiUsagePanel } from "@/components/panels/ApiUsagePanel";
 import { TeamStatusPanel } from "@/components/panels/TeamStatusPanel";
 import { CommitLogPanel } from "@/components/panels/CommitLogPanel";
+import { SkillUsagePanel } from "@/components/panels/SkillUsagePanel";
 import type { DashboardData } from "@/lib/types";
 
 export default function DashboardPage() {
@@ -64,8 +65,13 @@ export default function DashboardPage() {
             <TeamStatusPanel teams={data.teams} />
           </div>
 
-          {/* Bottom: Commits (full width) */}
-          <div className="lg:col-span-3">
+          {/* Bottom left: Skill Usage */}
+          <div className="lg:col-span-1">
+            <SkillUsagePanel skills={data.skills} />
+          </div>
+
+          {/* Bottom right: Commits */}
+          <div className="lg:col-span-2">
             <CommitLogPanel commits={data.commits} />
           </div>
         </div>
