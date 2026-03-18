@@ -32,6 +32,20 @@ function shortModel(model: string): string {
 }
 
 export function ApiUsagePanel({ costs, total }: Props) {
+  if (costs.length === 0) {
+    return (
+      <GlassCard className="h-full">
+        <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">
+          API Usage
+        </h2>
+        <div className="flex flex-col items-center justify-center h-48 text-gray-400">
+          <p className="text-sm">No API usage data found</p>
+          <p className="text-xs mt-1">Usage JSONL files will appear here once configured</p>
+        </div>
+      </GlassCard>
+    );
+  }
+
   const chartData = costs.map((c) => ({
     name: shortModel(c.model),
     cost: Number(c.cost.toFixed(2)),

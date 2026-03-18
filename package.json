@@ -1,27 +1,55 @@
 {
-  "name": "jarvis-dashboard",
-  "version": "0.1.0",
-  "private": true,
+  "name": "ur-dashboard",
+  "version": "0.3.3",
+  "description": "Real-time monitoring dashboard for AI agent orchestration with Claude Code",
+  "keywords": ["claude", "claude-code", "anthropic", "ai-agents", "agent-monitoring", "multi-agent", "ai-dashboard", "llm-observability", "llm-cost", "orchestration", "real-time", "monitoring", "dashboard", "devtools", "nextjs", "ai-ops"],
+  "license": "MIT",
+  "bin": {
+    "ur-dashboard": "bin/ur-dashboard.js"
+  },
+  "files": [
+    "app",
+    "components",
+    "lib",
+    "public",
+    "bin",
+    ".next/server",
+    ".next/static",
+    ".next/BUILD_ID",
+    ".next/build-manifest.json",
+    ".next/app-build-manifest.json",
+    ".next/app-path-routes-manifest.json",
+    ".next/routes-manifest.json",
+    ".next/required-server-files.json",
+    ".next/prerender-manifest.json",
+    ".next/package.json",
+    "dashboard.config.json",
+    "pricing.json",
+    "next.config.ts",
+    "tsconfig.json",
+    "postcss.config.mjs"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepublishOnly": "next build"
   },
   "dependencies": {
     "next": "16.1.7",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "recharts": "^3.8.0"
+    "recharts": "^3.8.0",
+    "@tailwindcss/postcss": "^4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.7",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "eslint-config-next": "16.1.7"
   }
 }

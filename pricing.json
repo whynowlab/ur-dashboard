@@ -1,0 +1,11 @@
+{
+  "models": {
+    "gpt-5.4-2026-03-05": [2.5, 15.0],
+    "gpt-5.4": [2.5, 15.0],
+    "gpt-5.4-pro": [30.0, 180.0],
+    "gemini-3.1-pro-preview": [2.0, 12.0],
+    "gemini-3.1-flash-lite-preview": [0.1, 0.4]
+  },
+  "tripo_price_per_task": 0.3,
+  "default_price": [1.0, 3.0]
+}

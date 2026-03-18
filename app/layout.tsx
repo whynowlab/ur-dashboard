@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Jarvis Dashboard",
-  description: "Orchestrator monitoring dashboard",
+  title: "ur-dashboard",
+  description: "Real-time monitoring dashboard for Claude Code agents",
+  icons: { icon: "/icon.svg" },
 };
 
 export default function RootLayout({

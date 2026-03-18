@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync, existsSync } from "fs";
 import { join } from "path";
+import { homedir } from "os";
 import type {
   UsageRecord,
   TripoRecord,
@@ -11,7 +12,7 @@ import type {
 } from "./types";
 
 function expandHome(p: string): string {
-  return p.replace(/^~/, process.env.HOME || "/Users/dd");
+  return p.replace(/^~/, homedir());
 }
 
 export function readJsonlFile<T>(filePath: string): T[] {

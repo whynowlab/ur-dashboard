@@ -1,0 +1,18 @@
+# Dev cache and build artifacts (massive)
+.next/dev/
+.next/cache/
+.next/build/
+
+# Source maps (not needed for production)
+**/*.map
+
+# Dev-only files
+node_modules/
+openspec/
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.env*
+eslint.config.mjs
+pnpm-lock.yaml
+pnpm-workspace.yaml

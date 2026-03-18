@@ -71,17 +71,67 @@ export interface SkillUsageEntry {
   lastUsed: string;
 }
 
+export interface EnvironmentSummary {
+  setupLevel: "full" | "minimal" | "none";
+  hasOrchestrator: boolean;
+  hasSkillRouter: boolean;
+  activePanels: number;
+}
+
+export interface ComponentStat {
+  name: string;
+  category: string;
+  count: number;
+  lastModified: string | null;
+}
+
+export interface RecentFile {
+  name: string;
+  path: string;
+  category: string;
+  mtime: string;
+  size: number;
+}
+
 export interface DashboardData {
   usage: ModelCost[];
   totalCost: number;
   teams: TeamStatus[];
   commits: CommitEntry[];
   skills: SkillUsageEntry[];
+  environment: EnvironmentSummary;
+  // Scan-based data for non-orchestrator environments
+  components: ComponentStat[];
+  recentFiles: RecentFile[];
   updatedAt: string;
+  capabilities?: Capabilities;
 }
 
 export interface PanelConfig {
   id: string;
   label: string;
   component: string;
+}
+
+export interface DispatchJob {
+  jobId: string;
+  agent: string;
+  prompt: string;
+  status: "running" | "completed" | "failed" | "cancelled" | "timeout";
+  startedAt: string;
+  endedAt?: string;
+  exitCode?: number;
+  logs: Array<{ type: "stdout" | "stderr" | "system"; data: string; timestamp: string }>;
+}
+
+export interface TeamConfig {
+  teams: Record<string, {
+    description: string;
+    agents: string[];
+  }>;
+}
+
+export interface Capabilities {
+  canDispatch: boolean;
+  cliVersion: string | null;
 }
