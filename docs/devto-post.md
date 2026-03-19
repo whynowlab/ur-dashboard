@@ -11,7 +11,7 @@ Here's the problem: you're running multiple Claude Code agents — one reviewing
 
 Which one finished? Which one is stuck? How much did it cost?
 
-**You don't know.** There's no dashboard. Just terminal windows.
+You don't know. There's no dashboard. Just terminal windows.
 
 I built [ur-dashboard](https://github.com/whynowlab/ur-dashboard) to fix that. One command, real-time visibility into every agent, every cost, every skill.
 
@@ -28,7 +28,7 @@ Open `http://localhost:3000`. Done.
 
 ## What is ur-dashboard?
 
-ur-dashboard is a **zero-config, real-time monitoring dashboard** for Claude Code AI agents. It scans your local `~/.claude/` directory, auto-detects running agents, and streams everything to a browser dashboard via Server-Sent Events — updated every 5 seconds.
+ur-dashboard is a zero-config, real-time monitoring dashboard for Claude Code AI agents. It scans your local `~/.claude/` directory, auto-detects running agents, and streams everything to a browser dashboard via Server-Sent Events — updated every 5 seconds.
 
 No config files. No API keys. No Docker. It reads what's already there.
 
@@ -36,10 +36,10 @@ No config files. No API keys. No Docker. It reads what's already there.
 
 ## Who is this for?
 
-- **Claude Code power users** managing multiple agents and skills
-- **AI developers** who want visibility into what their agents are doing
-- **Teams** running multi-agent workflows who need a shared monitoring view
-- Anyone who wants to track **API costs** across OpenAI, Gemini, and other providers in real time
+- Claude Code power users managing multiple agents and skills
+- AI developers who want visibility into what their agents are doing
+- Teams running multi-agent workflows who need a shared monitoring view
+- Anyone who wants to track API costs across OpenAI, Gemini, and other providers in real time
 
 ---
 
@@ -111,9 +111,9 @@ Max 3 concurrent jobs. Configurable timeout. All inputs validated — `spawn` wi
 | Agent dispatch API | ✅ | ❌ | ❌ | ❌ |
 | Self-hosted | ✅ | ✅ | ❌ | ❌ |
 
-**The key difference:** Langfuse, Helicone, and LangSmith are general-purpose LLM observability platforms. They require SDK integration, API keys, and infrastructure setup.
+The key difference: Langfuse, Helicone, and LangSmith are general-purpose LLM observability platforms. They require SDK integration, API keys, and infrastructure setup.
 
-ur-dashboard is purpose-built for Claude Code — it reads your existing `~/.claude/` directory with zero instrumentation. If you're already using Langfuse for production tracing, ur-dashboard isn't a replacement. It's for **local development visibility** when you're running multiple agents and need to see what's happening right now.
+ur-dashboard is purpose-built for Claude Code — it reads your existing `~/.claude/` directory with zero instrumentation. If you're already using Langfuse for production tracing, ur-dashboard isn't a replacement. It's for local development visibility when you're running multiple agents and need to see what's happening right now.
 
 ---
 
@@ -185,8 +185,7 @@ Works on macOS and Windows. MIT licensed.
 
 ---
 
-**Links:**
-- [GitHub](https://github.com/whynowlab/ur-dashboard)
+Links:- [GitHub](https://github.com/whynowlab/ur-dashboard)
 - [npm](https://www.npmjs.com/package/ur-dashboard)
 
 If you're running multi-agent Claude Code workflows and want visibility without setup overhead — give it a try. Stars, issues, and PRs are welcome.
