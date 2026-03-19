@@ -1,6 +1,5 @@
 ---
 title: "I Run 5 Claude Code Agents at Once. I Had No Idea What They Were Doing."
-published: false
 description: "ur-dashboard: zero-config real-time monitoring for Claude Code multi-agent workflows. One npm command, full visibility into agents, costs, and skills."
 tags: ai, devtools, monitoring, showdev
 cover_image: https://raw.githubusercontent.com/whynowlab/ur-dashboard/main/docs/assets/hero-dashboard.png
