@@ -23,14 +23,19 @@
 ## Quick Start
 
 ```bash
-npx ur-dashboard
+npm install -g ur-dashboard
+ur-dashboard
 ```
 
 Open [http://localhost:3000](http://localhost:3000). That's it.
 
 ```bash
-npx ur-dashboard --port 8080              # Custom port
-npx ur-dashboard --claude-home /path/to   # Custom Claude home directory
+# Or try without installing
+npx ur-dashboard
+
+# Options
+ur-dashboard --port 8080              # Custom port
+ur-dashboard --claude-home /path/to   # Custom Claude home directory
 ```
 
 ---
