@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, existsSync } from "fs";
+import { readFileSync, readdirSync, existsSync, statSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 import type {
@@ -80,6 +80,9 @@ export function readTeamStatuses(
 }
 
 export function readSkillUsage(statePath: string): SkillUsageEntry[] {
+  const map = new Map<string, { count: number; lastUsed: string }>();
+
+  // Source 1: orchestrator skill-usage.jsonl (if exists)
   const records = readJsonlFile<{
     ts: string;
     skill: string;
@@ -87,7 +90,6 @@ export function readSkillUsage(statePath: string): SkillUsageEntry[] {
     invoked_by: string;
   }>(`${statePath}/skill-usage.jsonl`);
 
-  const map = new Map<string, { count: number; lastUsed: string }>();
   for (const r of records) {
     const existing = map.get(r.skill);
     if (!existing || r.ts > existing.lastUsed) {
@@ -98,6 +100,56 @@ export function readSkillUsage(statePath: string): SkillUsageEntry[] {
     } else {
       existing.count += 1;
     }
+  }
+
+  // Source 2: Claude Code session logs — scan for Skill tool invocations
+  const claudeHome = process.env.CLAUDE_HOME || join(homedir(), ".claude");
+  const projectsDir = join(claudeHome, "projects");
+  if (existsSync(projectsDir)) {
+    try {
+      const projectDirs = readdirSync(projectsDir);
+      // Only scan recent session files (last 7 days) for performance
+      const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+
+      for (const projDir of projectDirs) {
+        const projPath = join(projectsDir, projDir);
+        try {
+          if (!statSync(projPath).isDirectory()) continue;
+          const files = readdirSync(projPath).filter((f) => f.endsWith(".jsonl"));
+          for (const file of files) {
+            const fp = join(projPath, file);
+            try {
+              const fstat = statSync(fp);
+              if (fstat.mtime.getTime() < cutoff) continue;
+              const content = readFileSync(fp, "utf-8");
+              for (const line of content.split("\n")) {
+                if (!line.includes('"name":"Skill"')) continue;
+                try {
+                  const entry = JSON.parse(line);
+                  const ts = entry.timestamp || "";
+                  const msgContent = entry.message?.content;
+                  if (!Array.isArray(msgContent)) continue;
+                  for (const c of msgContent) {
+                    if (c.type === "tool_use" && c.name === "Skill" && c.input?.skill) {
+                      const skill = c.input.skill;
+                      const existing = map.get(skill);
+                      if (!existing || ts > existing.lastUsed) {
+                        map.set(skill, {
+                          count: (existing?.count || 0) + 1,
+                          lastUsed: ts,
+                        });
+                      } else {
+                        existing.count += 1;
+                      }
+                    }
+                  }
+                } catch { /* skip malformed line */ }
+              }
+            } catch { /* skip file */ }
+          }
+        } catch { /* skip dir */ }
+      }
+    } catch { /* skip */ }
   }
 
   return Array.from(map.entries())
