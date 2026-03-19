@@ -7,13 +7,15 @@ cover_image: https://raw.githubusercontent.com/whynowlab/ur-dashboard/main/docs/
 canonical_url: https://github.com/whynowlab/ur-dashboard
 ---
 
-Here's the problem: you're running multiple Claude Code agents — one reviewing code, one implementing features, one doing research. You check in 10 minutes later.
+I run 16 agent teams. Engineering, research, design, marketing, security — each team with 3-5 specialized agents working in parallel. On a busy day, that's 40+ concurrent Claude Code processes across my machines.
 
-Which one finished? Which one is stuck? How much did it cost?
+The problem wasn't running them. Claude Code handles that fine. The problem was knowing what was happening.
 
-You don't know. There's no dashboard. Just terminal windows.
+Which team finished? Which agent is stuck waiting for a permission prompt? Did the research team burn through $8 on a task I expected to cost $2? Is the code-review team actually running, or did it silently crash 20 minutes ago?
 
-I built [ur-dashboard](https://github.com/whynowlab/ur-dashboard) to fix that. One command, real-time visibility into every agent, every cost, every skill.
+I had no answers. Just a wall of terminal windows.
+
+So I built [ur-dashboard](https://github.com/whynowlab/ur-dashboard). ur-dashboard is a zero-config, real-time monitoring dashboard for Claude Code multi-agent workflows. One npm install, one command, and you get a single screen showing every agent, every cost, every skill — updated every 5 seconds via Server-Sent Events.
 
 ```bash
 npm install -g ur-dashboard
@@ -26,32 +28,41 @@ Open `http://localhost:3000`. Done.
 
 ---
 
-## What is ur-dashboard?
+## Why is there no built-in monitoring for Claude Code agents?
 
-ur-dashboard is a zero-config, real-time monitoring dashboard for Claude Code AI agents. It scans your local `~/.claude/` directory, auto-detects running agents, and streams everything to a browser dashboard via Server-Sent Events — updated every 5 seconds.
+Claude Code is great at running agents. But once you scale beyond 2-3 agents, you lose visibility. There's no built-in way to see:
 
-No config files. No API keys. No Docker. It reads what's already there.
+- Which agents are active right now
+- How much each model costs you per session
+- Whether your team groupings are actually being used
+- What skills your agents invoke most often
 
----
+Existing LLM observability tools (Langfuse, Helicone, LangSmith) solve this for production APIs — but they all require SDK integration, API keys, and infrastructure setup. If you just want to see what your local Claude Code agents are doing right now, there was nothing.
 
-## Who is this for?
-
-- Claude Code power users managing multiple agents and skills
-- AI developers who want visibility into what their agents are doing
-- Teams running multi-agent workflows who need a shared monitoring view
-- Anyone who wants to track API costs across OpenAI, Gemini, and other providers in real time
+ur-dashboard fills that gap. It reads your existing `~/.claude/` directory with zero configuration — no SDK, no API keys, no infrastructure. Install with `npm install -g ur-dashboard`, run `ur-dashboard`, and open `localhost:3000`.
 
 ---
 
-## What can you see?
+## Who should use ur-dashboard?
+
+ur-dashboard is designed for developers who run 2 or more Claude Code agents simultaneously. Specifically:
+
+- You run multiple Claude Code agents and lose track of what's happening
+- You want to know how much your AI workflows cost before the bill arrives
+- You manage agent teams and need a visual overview of who's active
+- You want to organize your agents into departments without editing config files by hand
+
+---
+
+## What does ur-dashboard show?
 
 ### Real-time agent monitoring
 
-The dashboard auto-detects agents from `~/.claude/agents/` and shows their status. If you're using an orchestrator, it picks up team groupings automatically.
+The dashboard auto-detects agents from `~/.claude/agents/` and displays each agent's current status (active, idle, or stopped). If you're using an orchestrator, it picks up team groupings automatically. Status updates arrive every 5 seconds with no page refresh needed.
 
 ### API cost tracking
 
-Reads JSONL usage logs and calculates costs per model:
+ur-dashboard reads JSONL usage logs from `~/.claude/` and calculates costs per model in real time:
 
 | Model | Input (per 1M tokens) | Output (per 1M tokens) |
 |-------|:---------------------:|:----------------------:|
@@ -59,7 +70,7 @@ Reads JSONL usage logs and calculates costs per model:
 | gemini-3.1-pro | $2.00 | $12.00 |
 | claude-sonnet-4 | $3.00 | $15.00 |
 
-Costs are aggregated across all providers. You see the total at a glance.
+Costs are aggregated across all providers (OpenAI, Google, Anthropic) and displayed as a single total. You see exactly how much each model costs per session.
 
 ### Team management
 
@@ -95,11 +106,11 @@ curl -N http://localhost:3000/api/dispatch/{jobId}/stream
 curl -X DELETE http://localhost:3000/api/dispatch/{jobId}
 ```
 
-Max 3 concurrent jobs. Configurable timeout. All inputs validated — `spawn` with `shell: false` to prevent injection.
+The Dispatch API supports a maximum of 3 concurrent jobs with configurable timeouts. All inputs are validated, and commands use `spawn` with `shell: false` to prevent shell injection.
 
 ---
 
-## How does it compare to existing tools?
+## How does ur-dashboard compare to Langfuse, Helicone, and LangSmith?
 
 | Feature | ur-dashboard | Langfuse | Helicone | LangSmith |
 |---------|:----------:|:--------:|:--------:|:---------:|
@@ -111,15 +122,15 @@ Max 3 concurrent jobs. Configurable timeout. All inputs validated — `spawn` wi
 | Agent dispatch API | ✅ | ❌ | ❌ | ❌ |
 | Self-hosted | ✅ | ✅ | ❌ | ❌ |
 
-The key difference: Langfuse, Helicone, and LangSmith are general-purpose LLM observability platforms. They require SDK integration, API keys, and infrastructure setup.
+The key difference: Langfuse, Helicone, and LangSmith are general-purpose LLM observability platforms designed for production API tracing. They require SDK integration, API keys, and infrastructure setup.
 
-ur-dashboard is purpose-built for Claude Code — it reads your existing `~/.claude/` directory with zero instrumentation. If you're already using Langfuse for production tracing, ur-dashboard isn't a replacement. It's for local development visibility when you're running multiple agents and need to see what's happening right now.
+ur-dashboard is purpose-built for Claude Code local development. It reads your existing `~/.claude/` directory with zero instrumentation — no code changes, no API keys, no hosted service. If you're already using Langfuse for production tracing, ur-dashboard is not a replacement. It solves a different problem: real-time visibility into local multi-agent workflows.
 
 ---
 
-## How does the streaming work?
+## How does ur-dashboard stream data to the browser?
 
-The main dashboard endpoint (`GET /api/stream`) sends Server-Sent Events:
+The main dashboard endpoint (`GET /api/stream`) uses Server-Sent Events (SSE) over a persistent HTTP connection:
 
 ```json
 {
@@ -132,11 +143,11 @@ The main dashboard endpoint (`GET /api/stream`) sends Server-Sent Events:
 }
 ```
 
-No polling. The browser receives updates every 5 seconds via a persistent connection.
+There is no polling. The browser receives updates every 5 seconds via a single persistent SSE connection, keeping network overhead minimal.
 
 ---
 
-## Tech stack
+## What is ur-dashboard built with?
 
 | Layer | Choice |
 |-------|--------|
@@ -146,7 +157,7 @@ No polling. The browser receives updates every 5 seconds via a persistent connec
 | Streaming | Server-Sent Events |
 | Security | `spawn` with `shell: false`, input validation, path traversal prevention |
 
-The entire dashboard ships as a pre-built Next.js standalone app. `npx ur-dashboard` runs `next start` — no build step on the user's machine.
+The entire dashboard ships as a pre-built Next.js standalone binary. Running `npx ur-dashboard` starts the server directly — there is no build step on the user's machine.
 
 ---
 
@@ -154,19 +165,27 @@ The entire dashboard ships as a pre-built Next.js standalone app. `npx ur-dashbo
 
 ### Does ur-dashboard work without an orchestrator?
 
-Yes. It scans `~/.claude/agents/` and auto-detects agents by filename. No orchestrator needed. If you do have one, it picks up team definitions automatically.
+Yes. ur-dashboard works without any orchestrator. It scans `~/.claude/agents/` and auto-detects agents by filename. If you do have an orchestrator, it picks up team definitions from `teams.json` automatically.
 
-### Does it work on Windows?
+### Does ur-dashboard work on Windows?
 
-Yes. Tested on both macOS and Windows. Uses `os.homedir()` for cross-platform path resolution and `taskkill` fallback for process management on Windows.
+Yes. ur-dashboard runs on both macOS and Windows. It uses `os.homedir()` for cross-platform path resolution and falls back to `taskkill` for process management on Windows.
 
-### Does it modify my Claude Code files?
+### Does ur-dashboard modify my Claude Code files?
 
-No. It only reads from `~/.claude/`. The only file it writes is `~/.claude/agents/teams.json` when you explicitly save team configurations from the Settings tab. Your agent files are never modified or deleted.
+No. ur-dashboard only reads from `~/.claude/`. The only file it writes is `~/.claude/agents/teams.json`, and only when you explicitly save team configurations from the Settings tab. Your agent files are never modified or deleted.
 
 ### Is the Dispatch API safe?
 
-All CLI execution uses `child_process.spawn` with `shell: false`. User prompts are passed as a single argument — never interpolated into shell commands. Agent names are validated against path traversal. Permission mode is restricted to an allowlist (`default`, `acceptEdits`, `plan`).
+Yes. All CLI execution uses `child_process.spawn` with `shell: false`. User prompts are passed as a single argument — never interpolated into shell commands. Agent names are validated against path traversal. Permission mode is restricted to an allowlist of three values: `default`, `acceptEdits`, and `plan`.
+
+### How much does ur-dashboard cost?
+
+ur-dashboard is free and open source under the MIT license. There is no hosted service, no account required, and no telemetry. It runs entirely on your local machine.
+
+### Can I use ur-dashboard with non-Claude AI agents?
+
+ur-dashboard is purpose-built for Claude Code. It reads Claude Code's `~/.claude/` directory structure and JSONL usage logs. It does not currently support other AI coding assistants such as Cursor, Windsurf, or GitHub Copilot.
 
 ---
 
@@ -181,11 +200,12 @@ ur-dashboard
 npx ur-dashboard
 ```
 
-Works on macOS and Windows. MIT licensed.
+Works on macOS and Windows. MIT licensed. No account or API key required.
 
 ---
 
-Links:- [GitHub](https://github.com/whynowlab/ur-dashboard)
+Links:
+- [GitHub](https://github.com/whynowlab/ur-dashboard)
 - [npm](https://www.npmjs.com/package/ur-dashboard)
 
 If you're running multi-agent Claude Code workflows and want visibility without setup overhead — give it a try. Stars, issues, and PRs are welcome.
