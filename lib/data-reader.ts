@@ -79,7 +79,15 @@ export function readTeamStatuses(
   });
 }
 
+// Cache skill scan results — session log scanning is expensive
+let skillCache: { data: SkillUsageEntry[]; ts: number } | null = null;
+const SKILL_CACHE_TTL = 60_000; // 60 seconds
+
 export function readSkillUsage(statePath: string): SkillUsageEntry[] {
+  if (skillCache && Date.now() - skillCache.ts < SKILL_CACHE_TTL) {
+    return skillCache.data;
+  }
+
   const map = new Map<string, { count: number; lastUsed: string }>();
 
   // Source 1: orchestrator skill-usage.jsonl (if exists)
@@ -152,9 +160,12 @@ export function readSkillUsage(statePath: string): SkillUsageEntry[] {
     } catch { /* skip */ }
   }
 
-  return Array.from(map.entries())
+  const result = Array.from(map.entries())
     .map(([skill, data]) => ({ skill, ...data }))
     .sort((a, b) => b.count - a.count);
+
+  skillCache = { data: result, ts: Date.now() };
+  return result;
 }
 
 export function readCommits(

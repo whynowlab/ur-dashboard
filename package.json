@@ -1,6 +1,6 @@
 {
   "name": "ur-dashboard",
-  "version": "0.3.3",
+  "version": "0.3.5",
   "description": "Real-time monitoring dashboard for AI agent orchestration with Claude Code",
   "keywords": ["claude", "claude-code", "anthropic", "ai-agents", "agent-monitoring", "multi-agent", "ai-dashboard", "llm-observability", "llm-cost", "orchestration", "real-time", "monitoring", "dashboard", "devtools", "nextjs", "ai-ops"],
   "license": "MIT",
