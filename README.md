@@ -1,3 +1,7 @@
+<p align="right">
+  <a href="README.md">English</a> · <a href="README-ko.md">한국어</a>
+</p>
+
 <div align="center">
   <img src="public/icon.svg" width="64" height="64" alt="ur-dashboard" />
   <h1>ur-dashboard</h1>
@@ -37,6 +41,23 @@ npx ur-dashboard
 ur-dashboard --port 8080              # Custom port
 ur-dashboard --claude-home /path/to   # Custom Claude home directory
 ```
+
+---
+
+## Who Is This For?
+
+- **Claude Code power users** managing multiple agents and skills
+- **AI developers** who want visibility into what their agents are doing
+- **Teams** running multi-agent workflows who need a shared monitoring view
+- Anyone who wants to **track API costs** across OpenAI, Gemini, and other providers
+
+## Why Use ur-dashboard?
+
+- **No setup required** — just run the command and it works
+- **See everything at once** — agents, costs, skills, commits in one screen
+- **Organize your agents** — group agents into teams, save configurations
+- **Stay in control** — real-time streaming, no stale data
+- **Works everywhere** — macOS, Windows, with or without orchestrator
 
 ---
 
