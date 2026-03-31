@@ -4,7 +4,7 @@
 
 <div align="center">
   <img src="public/icon.svg" width="64" height="64" alt="ur-dashboard" />
-  <h1>ur-dashboard</h1>
+  <h1>ur-dashboard — Claude Code Agent Monitoring Dashboard</h1>
   <p><strong>Real-time monitoring dashboard for Claude Code AI agents</strong><br/>
   <em>Your AI agents, visible. One command.</em></p>
   <p>
