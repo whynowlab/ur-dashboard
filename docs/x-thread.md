@@ -9,7 +9,7 @@ a wall of terminals, zero visibility.
 I built ur-dashboard to monitor agents in real time with one command.
 
 Screenshot:
-https://raw.githubusercontent.com/whynowlab/ur-dashboard/main/docs/assets/hero-dashboard.png
+https://raw.githubusercontent.com/thestack-ai/ur-dashboard/main/docs/assets/hero-dashboard.png
 
 #ClaudeCode #AI #OpenSource #DevTools
 
@@ -80,7 +80,7 @@ npx ur-dashboard
 ```
 
 Repo:
-https://github.com/whynowlab/ur-dashboard
+https://github.com/thestack-ai/ur-dashboard
 
 npm:
 https://www.npmjs.com/package/ur-dashboard
@@ -94,7 +94,7 @@ If you’re already using Claude Code, this is the fastest way to see what’s h
 ### Tweet 7/7 — CTA
 If you use Claude Code with multiple agents, give ur-dashboard a try.
 
-GitHub: https://github.com/whynowlab/ur-dashboard  
+GitHub: https://github.com/thestack-ai/ur-dashboard  
 npm: `ur-dashboard`
 
 Star the repo if it’s useful.

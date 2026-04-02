@@ -188,7 +188,7 @@ Requires `claude` CLI in PATH. Max 3 concurrent jobs. Timeout: 300s default.
 ## Development
 
 ```bash
-git clone https://github.com/whynowlab/ur-dashboard.git
+git clone https://github.com/thestack-ai/ur-dashboard.git
 cd ur-dashboard
 npm install
 npm run dev

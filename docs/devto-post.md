@@ -2,8 +2,8 @@
 title: "I Run 5 Claude Code Agents at Once. I Had No Idea What They Were Doing."
 description: "ur-dashboard: zero-config real-time monitoring for Claude Code multi-agent workflows. One npm command, full visibility into agents, costs, and skills."
 tags: ai, devtools, monitoring, showdev
-cover_image: https://raw.githubusercontent.com/whynowlab/ur-dashboard/main/docs/assets/hero-dashboard.png
-canonical_url: https://github.com/whynowlab/ur-dashboard
+cover_image: https://raw.githubusercontent.com/thestack-ai/ur-dashboard/main/docs/assets/hero-dashboard.png
+canonical_url: https://github.com/thestack-ai/ur-dashboard
 ---
 
 I run 16 agent teams. Engineering, research, design, marketing, security — each team with 3-5 specialized agents working in parallel. On a busy day, that's 40+ concurrent Claude Code processes across my machines.
@@ -14,7 +14,7 @@ Which team finished? Which agent is stuck waiting for a permission prompt? Did t
 
 I had no answers. Just a wall of terminal windows.
 
-So I built [ur-dashboard](https://github.com/whynowlab/ur-dashboard). ur-dashboard is a zero-config, real-time monitoring dashboard for Claude Code multi-agent workflows. One npm install, one command, and you get a single screen showing every agent, every cost, every skill — updated every 5 seconds via Server-Sent Events.
+So I built [ur-dashboard](https://github.com/thestack-ai/ur-dashboard). ur-dashboard is a zero-config, real-time monitoring dashboard for Claude Code multi-agent workflows. One npm install, one command, and you get a single screen showing every agent, every cost, every skill — updated every 5 seconds via Server-Sent Events.
 
 ```bash
 npm install -g ur-dashboard
@@ -23,7 +23,7 @@ ur-dashboard
 
 Open `http://localhost:3000`. Done.
 
-![ur-dashboard showing agent activity, usage metrics, team panels, and skill tracking](https://raw.githubusercontent.com/whynowlab/ur-dashboard/main/docs/assets/hero-dashboard.png)
+![ur-dashboard showing agent activity, usage metrics, team panels, and skill tracking](https://raw.githubusercontent.com/thestack-ai/ur-dashboard/main/docs/assets/hero-dashboard.png)
 
 ---
 
@@ -204,7 +204,7 @@ Works on macOS and Windows. MIT licensed. No account or API key required.
 ---
 
 Links:
-- [GitHub](https://github.com/whynowlab/ur-dashboard)
+- [GitHub](https://github.com/thestack-ai/ur-dashboard)
 - [npm](https://www.npmjs.com/package/ur-dashboard)
 
 If you're running multi-agent Claude Code workflows and want visibility without setup overhead — give it a try. Stars, issues, and PRs are welcome.
